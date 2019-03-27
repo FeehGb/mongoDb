@@ -1,0 +1,94 @@
+1) Crie um banco de dados chamado biblioteca
+use biblioteca
+
+2) Crie uma coleção (collection) chamada livros
+db.createCollection("livros");
+
+3) Crie os seguintes documentos:
+db.livros.save(
+    { 
+        "título":"Introdução a linguagem de marcação HTML",
+        valor:25.00,
+        autor:"joão"
+    });
+db.livros.save(
+    { 
+        "título":"NodeJS do básico ao avançado",
+        valor:270.00,
+        autor:"jorge"
+    });
+db.livros.save(
+    { 
+        "título":"Android - criando apps reais",
+        valor:280.00,
+        autor:"jamilton"
+    });
+db.livros.save(
+    { 
+        "título":"PHP e MySQL",
+        valor:190.00,
+        autor:"Fernando"
+    });
+db.livros.save(
+    { 
+        "título":"Logica de Programção",
+        valor:22.00,
+        autor:"Maria"
+    });
+    
+    
+4) Crie as seguintes consultas:
+
+Crie uma consulta que retorne apenas os documentos de livros com valores superiores a 200.00
+db.livros.find({ valor:{$gt:200}})
+
+Crie uma consulta que retorne apenas os documentos com valores entre 10 e 30
+db.livros.find({ valor:{$gt:10, $lt:30}})
+
+Crie uma consulta que retorne todos os documentos, executo aqueles cujo autor seja Fernando
+db.livros.find({ autor:{$ne:"Fernando"}})
+
+
+
+5) Atualize os seguintes documentos:
+
+Atualize o documento cujo o título é PHP e MySQL, passando seu valor de 190.00 para 175.00
+db.livros.update({"título":"PHP e MySQL"},{$set:{valor:175}})
+
+Atualize o documento cujo autor é Jorge, passando seu título para Curso Completo de NodeJS
+db.livros.update({"autor":"jorge"},{$set:{"título":"Curso Completo de NodeJS"}});
+
+Atualize todos os documentos cujo valor são iguais ou inferiores a 25.00 para o valor 27.00
+db.livros.update({"valor":{$lte:25}},{$set:{"valor":27}});
+
+
+6) Remove os seguintes documentos:
+
+Remova o documento cujo autor é João
+db.livros.remove({autor:"joão"})
+Remova todos os documentos cujo valor é superior a 280.00
+db.livros.remove({valor:{$gt:280}})
+Remova todos os documentos cujo valor é inferior a 30.00
+db.livros.remove({valor:{$lt:30}})
+
+
+resultado final:
+
+
+
+{
+        "_id" : ObjectId("5c9ad5e62bcd7f9912ff2092"),
+        "título" : "Android - criando apps reais",
+        "valor" : 280,
+        "autor" : "jamilton"
+}
+{
+        "_id" : ObjectId("5c9ad5e62bcd7f9912ff2093"),
+        "título" : "PHP e MySQL",
+        "valor" : 175,
+        "autor" : "Fernando"
+}
+
+
+
+

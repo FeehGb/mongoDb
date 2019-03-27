@@ -1,0 +1,112 @@
+show dbs => Mostra todos os banco de dados;
+
+use NomeDoBanco => Cria estrutura de um novo banco de dados ou acessa um existente;
+// Um banco so passa a existir quando inserido dados dentro do banco;
+
+// Para inserir dados no banco use o comando:
+db.alunos.save({Nome:"Felipe"});
+
+//para Remover um banco de dados usase o comando?
+db.dropDatabase();
+
+
+//para criar uma coleção
+db.createCollection("aluno")
+
+
+//para exibir sua coleção
+db.getCollectionNames()
+
+
+//para deletar um coleção
+db.aluno.drop()
+
+------------------------
+exemplos de inserção
+
+db.alunos.save(
+... {
+... nome: 'Jose',
+... idade: 30,
+... sexo:'M',
+... rg:'10.490.966-3',
+... cpf:'078.541.519.03',
+... matricula:'85674150'
+... })
+WriteResult({ "nInserted" : 1 })
+> db.alunos.save( { nome: 'Felipe', idade: 28, sexo:'M', rg:'10.490.966-3', cpf:'078.541.519.03', matricula:'85674150'})
+WriteResult({ "nInserted" : 1 })
+> db.alunos.save( { nome: 'Ryan', idade: 18, sexo:'M', rg:'15.458.457-05', cpf:'117.533.429-45', matricula:'nao sei'})
+WriteResult({ "nInserted" : 1 })
+> db.alunos.save( { nome: 'Thiago', idade: 55, sexo:'F', rg:'15.545.557-05', cpf:'117.115.459-41', matricula:'nao sei',cursos_de_interesse:[{curso:'Curso Completo de Desenvolvimento NodeJs'}, {curso:'Curso Completo de Desenvolvimento Web - Crei 6 projetos'}]})
+WriteResult({ "nInserted" : 1 });
+
+
+--------------------------
+
+//retonar o ultimo registro cadastrado
+db.alunos.findOne()/
+
+//db.alunos.find()
+retorna todos os nossos dados dentro da collection alunos
+
+//db.alunos.find().pretty()
+retorna todos os nossos dados dentro da collection alunos formatados
+
+
+
+//Operadores de comparação
+Comando     - Descrição           - Equivalente a outras linguagens
+$eq         - Igual a             - =
+$gt         - Maior que           - >
+$gte        - Maior ou igual a    - >=
+$lt         - Menor que           - <
+$lte        - Menor ou igual      - <=
+$ne         - Diferente           - <>/!=
+
+//retorna todos os dados que tenham nome igual($eq) Jose e formatado
+db.alunos.find({nome:{$eq:"Jose"} }).pretty()
+
+//retorna todos os dados que tenham idade menor que($lt) Jose e formatado
+db.alunos.find({idade:{$lt:50} }).pretty()
+
+//Operadores logicos
+AND 
+db.alunos.find({
+    nome:{$eq:"Jose"}
+    ,idade:{$gt:30} 
+}).pretty();
+
+OR
+
+db.alunos.find({
+    $or:[
+        {nome:{$eq:"Jose"}}
+        ,{idade:{$gt:30}} 
+    ]
+}).pretty();
+
+
+// ? Atualizando dados - UPDATE
+// o db.update espera 3 argumentos { condiçao }{ os dados a serem atualizado} { multi? se true atualiza todos os dados com esta condição se nao atualiza apenas a primeira ocorrencia}
+
+db.alunos.update({
+    nome:"Jose"
+},{$set:{nome:"pedro"}});
+
+// altera todas as ocorrencias
+db.alunos.update({
+    sexo:"M"
+},{$set:{sexo:"Masculino"}},{multi:true});
+
+//multiplos parametros
+
+db.alunos.update({
+    nome:"Felipe"
+},{$set:{idade:16, nome:"Felipe Basilio"}});
+
+// removendo dados - REMOVE
+// db.remove espera 2 argumentos { condição}{ se so a primeira ou todas as ocorrencias serao deletas}
+db.alunos.remove({nome:"Felipe"}) - remove apenas um
+db.alunos.remove({idade:{$eq:30}}) - remove com condição
+
